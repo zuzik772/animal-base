@@ -24,9 +24,29 @@ function App() {
 
   const filtered = filter === "" ? animals : animals.filter((animal) => animal.type === filter);
   if (sortDirection === "asc") {
-    filtered.sort((a, b) => a[sort] > b[sort]);
+    filtered.sort((a, b) => {
+      if (a[sort] > b[sort]) {
+        return -1;
+      }
+      if (a[sort] < b[sort]) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    });
   } else {
-    filtered.sort((a, b) => a[sort] < b[sort]);
+    if (sortDirection === "asc") {
+      filtered.sort((a, b) => {
+        if (a[sort] < b[sort]) {
+          return -1;
+        }
+        if (a[sort] > b[sort]) {
+          return 1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+    }
   }
   return (
     <div className="App">
