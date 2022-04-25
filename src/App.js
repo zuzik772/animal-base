@@ -1,6 +1,6 @@
-import "./App.css";
 import data from "./animals.json";
 import { useState } from "react";
+import ToggleCell from "./ToggleCell";
 
 function clean(arr) {
   return arr.map((animal) => {
@@ -18,10 +18,16 @@ function clean(arr) {
 function App() {
   const animals = clean(data);
   console.log(animals);
-  const [filter, setFilter] = useState("cat");
+  const [filter, setFilter] = useState("");
   const [sort, setSort] = useState("name");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   const filtered = filter === "" ? animals : animals.filter((animal) => animal.type === filter);
+  if (sortDirection === "asc") {
+    filtered.sort((a, b) => a[sort] > b[sort]);
+  } else {
+    filtered.sort((a, b) => a[sort] < b[sort]);
+  }
   return (
     <div className="App">
       <button onClick={() => setFilter("cat")}>Cats</button>
@@ -30,10 +36,30 @@ function App() {
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Desc</th>
-            <th>Age</th>
+            <ToggleCell
+              setSort={setSort}
+              setDirection={setSortDirection}
+              title="Name"
+              sortKey="name"
+            />
+            <ToggleCell
+              setSort={setSort}
+              setDirection={setSortDirection}
+              title="Description"
+              sortKey="desc"
+            />
+            <ToggleCell
+              setSort={setSort}
+              setDirection={setSortDirection}
+              title="Type"
+              sortKey="type"
+            />
+            <ToggleCell
+              setSort={setSort}
+              setDirection={setSortDirection}
+              title="Age"
+              sortKey="age"
+            />
           </tr>
         </thead>
         <tbody>
